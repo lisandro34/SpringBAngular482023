@@ -68,9 +68,4 @@ export class ClienteService {
       })
     )
   }
-   
-
-
-
-
 }
