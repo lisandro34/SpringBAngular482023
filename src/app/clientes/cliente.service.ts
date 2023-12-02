@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { formatDate} from '@angular/common';
+import { CLIENTES } from './clientes.json';
 import { Cliente } from './cliente';
-import {Observable, catchError, of, tap, throwError} from 'rxjs';
+import {Observable, catchError, of, throwError} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs';
 import { Router } from '@angular/router';
@@ -21,33 +21,11 @@ export class ClienteService {
   //obtenemos los datos de los clientes.
   getClientes(): Observable<Cliente[]>{
      //return of (CLIENTES);
-    //manera 1= return this.http.get<Cliente[]>(this.urlEndPoint)
-   return this.http.get(this.urlEndPoint).pipe(
-    //el tap es para menejar con pipe object en este caso seguira siendo un object
-    tap(response=>{
-      let clientes = response as Cliente[];
-      console.log('ClientesService: tap 1')
-      clientes.forEach(cliente =>{
-        console.log(cliente.nombre);
-      })
-    }),
-    map(response =>{
-      let clientes = response as Cliente[];
-      return clientes.map(cliente =>{
-        cliente.nombre = cliente.nombre.toUpperCase();
-        //cliente.createAt = formatDate(cliente.createAt, 'EEEE dd, MMMM yyyy','es');
-        return cliente;
-      });
-    }),
-    //en este tap ya response no es un object es de tipo array Cliente
-    tap(response=>{
-      let clientes = response as Cliente[];
-      console.log('ClientesService: tap 2')
-      clientes.forEach(cliente =>{
-        console.log(cliente.nombre);
-      })
-    }),
-    )}
+  /* manera 1= return this.http.get(this.urlEndPoint).pipe(
+    map((response) => response as Cliente[]));*/
+    return this.http.get<Cliente[]>(this.urlEndPoint)
+   
+  }
 
   //crear un cliente
   create(cliente: Cliente): Observable<Cliente>{
